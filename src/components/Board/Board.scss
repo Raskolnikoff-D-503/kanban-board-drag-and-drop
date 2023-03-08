@@ -1,0 +1,13 @@
+.board {
+  &__container {
+    width: 100%;
+    border: 5px solid black;
+    border-radius: 24px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    gap: 24px;
+  }
+}
