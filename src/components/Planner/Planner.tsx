@@ -28,12 +28,16 @@ export const Planner = () => {
     event.preventDefault();
     setData((current) =>
       current.map((item) => {
+        console.log('test test', item);
+
         if (item.id === currentTask?.id) {
+          console.log('test', {...item, order: data.order, type: data.type});
+
           return {...item, order: data.order, type: data.type};
         }
 
         if (item.id === data.id) {
-          return {...item, order: length + 1};
+          return {...item, order: item.type === currentTask?.type ? length : length + 1};
         }
 
         return item;
@@ -47,7 +51,11 @@ export const Planner = () => {
     setData((current) =>
       current.map((item) => {
         if (item.id === currentTask?.id) {
-          return {...item, order: board.tasks.length + 1, type: board.id};
+          return {
+            ...item,
+            order: board.id === currentTask.type ? board.tasks.length : board.tasks.length + 1,
+            type: board.id,
+          };
         }
 
         return item;
