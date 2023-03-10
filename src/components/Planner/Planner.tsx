@@ -7,60 +7,78 @@ import {mockData, plannerStructure} from './planner.constants';
 import './Planner.scss';
 
 export const Planner = () => {
-  const [data, setData] = useState<TaskDataType[]>(mockData);
+  const [list, setList] = useState<TaskDataType[]>(mockData);
   const [currentTask, setCurrentTask] = useState<TaskDataType | null>(null);
+  const [isDragOverTask, setIsDragOverTask] = useState<boolean>(false);
 
-  const config = getPlannerConfig(data);
+  const config = getPlannerConfig(list);
   const configuratedData = plannerStructure.map((item) => ({...item, tasks: config[item.id]}));
-
-  console.log(data, currentTask);
 
   const handleDragStart = (data: TaskDataType) => (_: DragEvent<HTMLDivElement>) => {
     setCurrentTask(data);
   };
+
   const handleDragLeave = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
+
+    setIsDragOverTask(false);
   };
+
   const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
+
+    setIsDragOverTask(true);
   };
-  const handleDrop = (data: TaskDataType, length: number) => (event: DragEvent<HTMLDivElement>) => {
+
+  const handleDrop =
+    (data: TaskDataType, board: PlannerType) => (event: DragEvent<HTMLDivElement>) => {
+      event.preventDefault();
+
+      setIsDragOverTask(false);
+      setList((current) =>
+        current.map((item) => {
+          console.log('test test', item);
+
+          if (item.id === currentTask?.id) {
+            console.log('test item', {...item, order: data.order, type: data.type});
+
+            return {...item, order: data.order, type: data.type};
+          }
+
+          if (item.id === data.id) {
+            return {
+              ...item,
+              order: item.type === currentTask?.type ? currentTask.order : board.tasks.length + 1,
+            };
+          }
+
+          return item;
+        }),
+      );
+    };
+
+  const handleBoardDragOver = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    setData((current) =>
-      current.map((item) => {
-        console.log('test test', item);
-
-        if (item.id === currentTask?.id) {
-          console.log('test', {...item, order: data.order, type: data.type});
-
-          return {...item, order: data.order, type: data.type};
-        }
-
-        if (item.id === data.id) {
-          return {...item, order: item.type === currentTask?.type ? length : length + 1};
-        }
-
-        return item;
-      }),
-    );
   };
 
   const handleBoardDrop = (board: PlannerType) => (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
 
-    setData((current) =>
-      current.map((item) => {
-        if (item.id === currentTask?.id) {
-          return {
-            ...item,
-            order: board.id === currentTask.type ? board.tasks.length : board.tasks.length + 1,
-            type: board.id,
-          };
-        }
+    if (!isDragOverTask) {
+      setList((current) =>
+        current.map((item) => {
+          if (item.id === currentTask?.id) {
+            return {
+              ...item,
+              order: board.id === currentTask.type ? currentTask.order : board.tasks.length + 1,
+              type: board.id,
+            };
+          }
 
-        return item;
-      }),
-    );
+          return item;
+        }),
+      );
+    }
   };
 
   return (
@@ -71,7 +89,7 @@ export const Planner = () => {
             key={board.id}
             label={board.label}
             onDrop={handleBoardDrop(board)}
-            onDragOver={handleDragOver}
+            onDragOver={handleBoardDragOver}
           >
             {board.tasks.map((task) => (
               <Task
@@ -80,7 +98,7 @@ export const Planner = () => {
                 onDragStart={handleDragStart(task)}
                 onDragLeave={handleDragLeave}
                 onDragOver={handleDragOver}
-                onDrop={handleDrop(task, board.tasks.length)}
+                onDrop={handleDrop(task, board)}
               />
             ))}
           </Board>
