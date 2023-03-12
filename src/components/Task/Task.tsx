@@ -14,7 +14,7 @@ type Props = {
 export const Task = ({onDragStart, onDragLeave, onDragOver, onDrop, content}: Props) => {
   return (
     <Draggable
-      className={'task__container'}
+      className="task__container"
       onDragStart={onDragStart}
       onDragLeave={onDragLeave}
       onDragOver={onDragOver}
