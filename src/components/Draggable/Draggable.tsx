@@ -1,10 +1,11 @@
 import React, {ReactNode, DragEvent} from 'react';
 
 type Props = {
-  onDragStart: (event: DragEvent<HTMLDivElement>) => void;
-  onDragLeave: (event: DragEvent<HTMLDivElement>) => void;
-  onDragOver: (event: DragEvent<HTMLDivElement>) => void;
-  onDrop: (event: DragEvent<HTMLDivElement>) => void;
+  onDragStart?: (event: DragEvent<HTMLDivElement>) => void;
+  onDragLeave?: (event: DragEvent<HTMLDivElement>) => void;
+  onDragEnd?: (event: DragEvent<HTMLDivElement>) => void;
+  onDragOver?: (event: DragEvent<HTMLDivElement>) => void;
+  onDrop?: (event: DragEvent<HTMLDivElement>) => void;
   className?: string;
   children: ReactNode;
 };
@@ -12,6 +13,7 @@ type Props = {
 export const Draggable = ({
   onDragStart,
   onDragLeave,
+  onDragEnd,
   onDragOver,
   onDrop,
   className,
@@ -24,6 +26,7 @@ export const Draggable = ({
       onDragOver={onDragOver}
       onDragLeave={onDragLeave}
       onDrop={onDrop}
+      onDragEnd={onDragEnd}
       className={className}
     >
       {children}

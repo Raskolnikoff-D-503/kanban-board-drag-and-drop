@@ -1,10 +1,12 @@
 .task {
   &__container {
     width: 100%;
+    background-color: white;
     border: 5px solid black;
     padding: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: grab;
   }
 }

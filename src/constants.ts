@@ -1,5 +1,5 @@
 export const TASK_TYPE = {
-  BACKLOG: 'BACKLOG',
+  UPCOMING: 'UPCOMING',
   IN_PROGRESS: 'IN_PROGRESS',
   DONE: 'DONE',
 } as const;

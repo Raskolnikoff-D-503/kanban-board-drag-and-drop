@@ -1,4 +1,10 @@
+export {App} from './App/App';
+export {Controller, ControllerContext} from './Controller';
+export {Header} from './Header/Header';
+export {Layout} from './Layout/Layout';
+export {Modal} from './Modal/Modal';
 export {Planner} from './Planner/Planner';
 export {Board} from './Board/Board';
 export {Task} from './Task/Task';
 export {Draggable} from './Draggable/Draggable';
+export {AddTask} from './AddTask/AddTask';
