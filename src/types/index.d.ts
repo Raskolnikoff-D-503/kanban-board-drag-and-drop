@@ -15,7 +15,7 @@ export type PlannerType = {
 };
 
 export type PlannerConfigType = {
-  [TASK_TYPE.BACKLOG]: TaskDataType[];
+  [TASK_TYPE.UPCOMING]: TaskDataType[];
   [TASK_TYPE.IN_PROGRESS]: TaskDataType[];
   [TASK_TYPE.DONE]: TaskDataType[];
 };

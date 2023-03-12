@@ -1,21 +1,31 @@
-import React, {DragEvent, ReactNode} from 'react';
+import React, {ReactNode, useContext} from 'react';
+import {PlannerType} from '@/types';
+import {ControllerContext} from '@/components';
+import {TASK_TYPE} from '@/constants';
 
 import './Board.scss';
 
 type Props = {
-  label: string;
-  isShowButton: boolean;
-  onDrop: (event: DragEvent<HTMLDivElement>) => void;
-  onDragOver: (event: DragEvent<HTMLDivElement>) => void;
+  data: PlannerType;
   children: ReactNode;
 };
 
-export const Board = ({isShowButton, label, onDrop, onDragOver, children}: Props) => {
+export const Board = ({data, children}: Props) => {
+  const context = useContext(ControllerContext);
+
   return (
-    <div className="board__container" onDrop={onDrop} onDragOver={onDragOver}>
-      <h2>{label}</h2>
+    <div
+      className="board__container"
+      onDrop={context?.handleBoardDrop(data)}
+      onDragOver={context?.handleBoardDragOver}
+    >
+      <h2>{data.label}</h2>
       <div className="board__content">{children}</div>
-      {isShowButton && <button>Add Task</button>}
+      {data.id === TASK_TYPE.UPCOMING && (
+        <button className="board__button" onClick={context?.handleModalOpen}>
+          Add Task
+        </button>
+      )}
     </div>
   );
 };

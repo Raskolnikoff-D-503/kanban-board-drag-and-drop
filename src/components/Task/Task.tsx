@@ -1,26 +1,26 @@
-import React from 'react';
-import {Draggable} from '@/components';
+import React, {useContext} from 'react';
+import {TaskDataType} from '@/types';
+import {ControllerContext, Draggable} from '@/components';
 
 import './Task.scss';
 
 type Props = {
-  onDragStart: (event: React.DragEvent<HTMLDivElement>) => void;
-  onDragLeave: (event: React.DragEvent<HTMLDivElement>) => void;
-  onDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
-  onDrop: (event: React.DragEvent<HTMLDivElement>) => void;
-  content: string;
+  data: TaskDataType;
 };
 
-export const Task = ({onDragStart, onDragLeave, onDragOver, onDrop, content}: Props) => {
+export const Task = ({data}: Props) => {
+  const context = useContext(ControllerContext);
+
   return (
     <Draggable
       className="task__container"
-      onDragStart={onDragStart}
-      onDragLeave={onDragLeave}
-      onDragOver={onDragOver}
-      onDrop={onDrop}
+      onDragStart={context?.handleDragStart(data)}
+      onDragLeave={context?.handleDragLeave}
+      onDragEnd={context?.handleDragEnd}
+      onDragOver={context?.handleDragOver}
+      onDrop={context?.handleDrop(data)}
     >
-      {content}
+      {data.content}
     </Draggable>
   );
 };

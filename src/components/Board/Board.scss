@@ -19,4 +19,20 @@
     height: 100%;
     gap: 16px;
   }
+
+  &__button {
+    padding: 8px;
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: gray;
+    }
+
+    &:active {
+      background-color: black;
+      color: white;
+    }
+  }
 }
