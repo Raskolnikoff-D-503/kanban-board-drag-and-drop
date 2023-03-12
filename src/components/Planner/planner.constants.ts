@@ -19,7 +19,7 @@ export const plannerStructure: PlannerType[] = [
   },
 ];
 
-export const alternativeMockData: PlannerConfigType = {
+export const mockData: PlannerConfigType = {
   BACKLOG: [
     {id: '1', content: 'Work on my schedule', type: TASK_TYPE.BACKLOG},
     {id: '5', content: 'Do workout', type: TASK_TYPE.BACKLOG},
