@@ -13,8 +13,8 @@
   }
   &__content {
     padding: 16px;
-    background-color: white;
-    border-radius: 16px;
-    border: 2px solid black;
+    box-shadow: 0 6px 6px hsl(0deg 0% 0% / 0.3);
+    // background-color: #d0b29b;
+    background-color: #fff;
   }
 }

@@ -8,3 +8,4 @@ export {Board} from './Board/Board';
 export {Task} from './Task/Task';
 export {Draggable} from './Draggable/Draggable';
 export {AddTask} from './AddTask/AddTask';
+export {Button} from './Button/Button';

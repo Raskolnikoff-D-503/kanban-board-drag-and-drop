@@ -1,12 +1,23 @@
 .task {
   &__container {
     width: 100%;
-    background-color: white;
-    border: 5px solid black;
     padding: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: grab;
+    box-shadow: 0 6px 6px hsl(0deg 0% 0% / 0.3);
+  }
+
+  &--upcoming {
+    background-color: #d09b9b;
+  }
+
+  &--in-progress {
+    background-color: #d0c99b;
+  }
+
+  &--done {
+    background-color: #9fd09b;
   }
 }

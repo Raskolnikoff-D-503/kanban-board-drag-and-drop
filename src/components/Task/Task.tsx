@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
 import {TaskDataType} from '@/types';
 import {ControllerContext, Draggable} from '@/components';
+import {TASK_STATUS} from '@/constants';
 
 import './Task.scss';
 
@@ -13,7 +14,7 @@ export const Task = ({data}: Props) => {
 
   return (
     <Draggable
-      className="task__container"
+      className={`task__container task--${TASK_STATUS[data.type]}`}
       onDragStart={context?.handleDragStart(data)}
       onDragLeave={context?.handleDragLeave}
       onDragEnd={context?.handleDragEnd}

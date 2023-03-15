@@ -1,6 +1,6 @@
 import React, {ReactNode, useContext} from 'react';
 import {PlannerType} from '@/types';
-import {ControllerContext} from '@/components';
+import {Button, ControllerContext} from '@/components';
 import {TASK_TYPE} from '@/constants';
 
 import './Board.scss';
@@ -22,9 +22,7 @@ export const Board = ({data, children}: Props) => {
       <h2>{data.label}</h2>
       <div className="board__content">{children}</div>
       {data.id === TASK_TYPE.UPCOMING && (
-        <button className="board__button" onClick={context?.handleModalOpen}>
-          Add Task
-        </button>
+        <Button text="Add Task" onClick={context?.handleModalOpen} />
       )}
     </div>
   );
