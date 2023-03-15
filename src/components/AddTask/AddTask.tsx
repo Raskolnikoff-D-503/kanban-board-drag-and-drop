@@ -1,4 +1,5 @@
 import React, {ChangeEvent, useState} from 'react';
+import {Button} from '@/components';
 
 import './AddTask.scss';
 
@@ -19,9 +20,7 @@ export const AddTask = () => {
     <div className="add-task__container">
       <h3>Add new task</h3>
       <textarea className="add-task__textarea" onChange={handleChange} />
-      <button className="add-task__button" onClick={handleSubmit}>
-        Add Task
-      </button>
+      <Button text="Add Task" onClick={handleSubmit} />
     </div>
   );
 };

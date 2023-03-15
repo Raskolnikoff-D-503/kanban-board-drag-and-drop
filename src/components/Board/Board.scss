@@ -1,14 +1,14 @@
 .board {
   &__container {
     width: 100%;
-    border: 5px solid black;
-    border-radius: 24px;
+    // background-color: #dcc7aa;
     padding: 24px;
     display: flex;
     align-items: center;
     flex-direction: column;
     height: 100%;
     gap: 24px;
+    box-shadow: 0 6px 6px hsl(0deg 0% 0% / 0.3);
   }
 
   &__content {
@@ -18,21 +18,5 @@
     flex-direction: column;
     height: 100%;
     gap: 16px;
-  }
-
-  &__button {
-    padding: 8px;
-    width: 100%;
-    border: 1px solid black;
-    border-radius: 4px;
-
-    &:hover {
-      background-color: gray;
-    }
-
-    &:active {
-      background-color: black;
-      color: white;
-    }
   }
 }
