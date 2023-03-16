@@ -21,7 +21,7 @@ export const Task = ({data}: Props) => {
       onDragOver={context?.handleDragOver}
       onDrop={context?.handleDrop(data)}
     >
-      {data.content}
+      <p>{data.content}</p>
     </Draggable>
   );
 };

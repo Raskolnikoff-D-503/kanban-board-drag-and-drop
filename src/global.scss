@@ -7,10 +7,10 @@
   font-family: 'Indie Flower', cursive;
 }
 
-// html,
-// body {
-//   background-color: #9bd0c9;
-// }
+html,
+body {
+  background-color: #fbfaf5;
+}
 
 button {
   background: none;
@@ -20,4 +20,16 @@ button {
   font: inherit;
   cursor: pointer;
   outline: inherit;
+}
+
+h1 {
+  font-size: 48px;
+}
+
+h2 {
+  font-size: 32px;
+}
+
+p {
+  font-size: 20px;
 }
