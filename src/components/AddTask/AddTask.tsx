@@ -18,7 +18,7 @@ export const AddTask = () => {
   const handleSubmit = () => {
     if (context && txt) {
       const newTask: TaskDataType = {
-        id: String(context.upcomingCongiguration.length + 1),
+        id: new Date().getTime().toString(),
         content: txt,
         type: TASK_TYPE.UPCOMING,
       };
