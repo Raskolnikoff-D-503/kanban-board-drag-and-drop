@@ -1,4 +1,4 @@
-import React, {DragEvent, ReactNode, useState} from 'react';
+import React, {DragEvent, ReactNode, useEffect, useState} from 'react';
 import {PlannerConfigType, TaskDataType, PlannerType} from '@/types';
 import {ControllerContext} from './ControllerContext';
 import {TASK_TYPE} from '@/constants';
@@ -7,15 +7,10 @@ type Props = {
   children: ReactNode;
 };
 
-//TODO: delete
-export const mockData: PlannerConfigType = {
-  UPCOMING: [
-    {id: '1', content: 'Work on my schedule', type: TASK_TYPE.UPCOMING},
-    {id: '5', content: 'Do workout', type: TASK_TYPE.UPCOMING},
-    {id: '2', content: 'Buy groceries', type: TASK_TYPE.UPCOMING},
-  ],
-  IN_PROGRESS: [{id: '3', content: 'Code new project', type: TASK_TYPE.IN_PROGRESS}],
-  DONE: [{id: '4', content: 'Code snake game', type: TASK_TYPE.DONE}],
+const defaultData: PlannerConfigType = {
+  [TASK_TYPE.UPCOMING]: [],
+  [TASK_TYPE.IN_PROGRESS]: [],
+  [TASK_TYPE.DONE]: [],
 };
 
 export const plannerStructure: PlannerType[] = [
@@ -37,7 +32,11 @@ export const plannerStructure: PlannerType[] = [
 ];
 
 export const Controller = ({children}: Props) => {
-  const [config, setConfig] = useState<PlannerConfigType>(mockData);
+  const upcomingStorage = localStorage.getItem('UPCOMING');
+  const inProgressStorage = localStorage.getItem('IN_PROGRESS');
+  const doneStorage = localStorage.getItem('DONE');
+
+  const [config, setConfig] = useState<PlannerConfigType>(defaultData);
   const [currentTask, setCurrentTask] = useState<TaskDataType | null>(null);
   const [isDragOverTask, setIsDragOverTask] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -78,10 +77,7 @@ export const Controller = ({children}: Props) => {
         const adjustPositionAddendum = currentIndex <= dropIndex ? 1 : 0;
         board.splice(dropIndex + adjustPositionAddendum, 0, currentTask);
 
-        setConfig((current) => ({
-          ...current,
-          [data.type]: board,
-        }));
+        localStorage.setItem(data.type, JSON.stringify(board));
       } else {
         const currentBoard = [...config[currentTask.type]];
         const board = [...config[data.type]];
@@ -92,11 +88,8 @@ export const Controller = ({children}: Props) => {
         const dropIndex = board.findIndex((item) => item.id === data.id);
         board.splice(dropIndex, 0, {...currentTask, type: data.type});
 
-        setConfig((current) => ({
-          ...current,
-          [data.type]: board,
-          [currentTask.type]: currentBoard,
-        }));
+        localStorage.setItem(data.type, JSON.stringify(board));
+        localStorage.setItem(currentTask.type, JSON.stringify(currentBoard));
       }
 
       setCurrentTask(null);
@@ -119,10 +112,7 @@ export const Controller = ({children}: Props) => {
         board.splice(currentIndex, 1);
         board.push({...currentTask, type: data.id});
 
-        setConfig((current) => ({
-          ...current,
-          [data.id]: board,
-        }));
+        localStorage.setItem(data.id, JSON.stringify(board));
       } else {
         const currentBoard = [...config[currentTask.type]];
         const board = [...data.tasks];
@@ -132,11 +122,8 @@ export const Controller = ({children}: Props) => {
         currentBoard.splice(currentIndex, 1);
         board.push({...currentTask, type: data.id});
 
-        setConfig((current) => ({
-          ...current,
-          [currentTask.type]: currentBoard,
-          [data.id]: board,
-        }));
+        localStorage.setItem(currentTask.type, JSON.stringify(currentBoard));
+        localStorage.setItem(data.id, JSON.stringify(board));
       }
 
       setCurrentTask(null);
@@ -151,10 +138,44 @@ export const Controller = ({children}: Props) => {
     setIsModalOpen(false);
   };
 
+  useEffect(() => {
+    const upcomingStorage = localStorage.getItem('UPCOMING');
+    const inProgressStorage = localStorage.getItem('IN_PROGRESS');
+    const doneStorage = localStorage.getItem('DONE');
+
+    if (!upcomingStorage) {
+      localStorage.setItem(TASK_TYPE.UPCOMING, JSON.stringify(defaultData[TASK_TYPE.UPCOMING]));
+    }
+
+    if (!inProgressStorage) {
+      localStorage.setItem(
+        TASK_TYPE.IN_PROGRESS,
+        JSON.stringify(defaultData[TASK_TYPE.IN_PROGRESS]),
+      );
+    }
+
+    if (!doneStorage) {
+      localStorage.setItem(TASK_TYPE.DONE, JSON.stringify(defaultData[TASK_TYPE.DONE]));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (upcomingStorage && inProgressStorage && doneStorage) {
+      const configuration: PlannerConfigType = {
+        [TASK_TYPE.UPCOMING]: JSON.parse(upcomingStorage),
+        [TASK_TYPE.IN_PROGRESS]: JSON.parse(inProgressStorage),
+        [TASK_TYPE.DONE]: JSON.parse(doneStorage),
+      };
+
+      setConfig(configuration);
+    }
+  }, [upcomingStorage, inProgressStorage, doneStorage]);
+
   return (
     <ControllerContext.Provider
       value={{
         data: configuratedData,
+        upcomingCongiguration: config[TASK_TYPE.UPCOMING],
         isModalOpen,
         handleDragStart,
         handleDragLeave,
