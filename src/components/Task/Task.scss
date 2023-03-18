@@ -1,4 +1,4 @@
-@import './src/style/mixins.scss';
+@import './src/style/variables.scss';
 
 .task {
   &__container {
@@ -14,14 +14,14 @@
   }
 
   &--upcoming {
-    background-color: $softRed;
+    background-color: $brightRed;
   }
 
   &--in-progress {
-    background-color: $softYellow;
+    background-color: $brightYellow;
   }
 
   &--done {
-    background-color: $softGreen;
+    background-color: $brightGreen;
   }
 }

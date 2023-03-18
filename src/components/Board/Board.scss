@@ -1,23 +1,28 @@
-@import './src/style/mixins.scss';
+@import './src/style/variables.scss';
 
 .board {
   &__container {
-    width: 100%;
-    max-height: 100%;
-    padding: 24px;
-    display: grid;
-    grid-template-rows: min-content 1fr min-content;
-    gap: 24px;
     box-shadow: $boxShadow;
+
+    max-height: calc(100vh - 166px);
+    min-height: 256px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 24px;
   }
 
   &__content {
     width: 100%;
-    height: 592px;
+    height: 100%;
+
     display: flex;
     align-items: flex-start;
     flex-direction: column;
     gap: 16px;
+
     overflow: hidden;
     overflow-y: scroll;
     scrollbar-width: none;

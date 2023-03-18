@@ -2,6 +2,8 @@
   &__container {
     display: flex;
     flex-direction: column;
+
+    align-items: center;
     gap: 12px;
   }
 
@@ -12,10 +14,18 @@
     resize: none;
     outline: none;
     background-color: inherit;
+
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   &__limit {
+    width: 100%;
     display: flex;
     justify-content: right;
+    font-size: 20px;
   }
 }

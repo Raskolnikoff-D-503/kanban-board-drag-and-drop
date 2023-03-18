@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
-@import './src/style/mixins.scss';
+@import './src/style/variables.scss';
 
 * {
   box-sizing: border-box;
@@ -29,6 +29,10 @@ h1 {
 
 h2 {
   font-size: 32px;
+}
+
+h3 {
+  font-size: 24px;
 }
 
 p {
