@@ -3,15 +3,23 @@ import {PlannerType, TaskDataType} from '@/types';
 
 type ControllerType = {
   data: PlannerType[];
-  upcomingCongiguration: TaskDataType[];
+  upcomingConfig: TaskDataType[];
+
   isModalOpen: boolean;
+  isOnDrag: boolean;
+
   handleDragStart: (data: TaskDataType) => (event: DragEvent<HTMLDivElement>) => void;
   handleDrop: (data: TaskDataType) => (event: DragEvent<HTMLDivElement>) => void;
-  handleBoardDrop: (data: PlannerType) => (event: DragEvent<HTMLDivElement>) => void;
   handleDragEnd: (event: DragEvent<HTMLDivElement>) => void;
   handleDragOver: (event: DragEvent<HTMLDivElement>) => void;
   handleDragLeave: (event: DragEvent<HTMLDivElement>) => void;
+
+  handleBoardDrop: (data: PlannerType) => (event: DragEvent<HTMLDivElement>) => void;
   handleBoardDragOver: (event: DragEvent<HTMLDivElement>) => void;
+
+  handleDeleteDrop: (event: DragEvent<HTMLDivElement>) => void;
+  handleDeleteDragOver: (event: DragEvent<HTMLDivElement>) => void;
+
   handleModalOpen: () => void;
   handleModalClose: () => void;
 };

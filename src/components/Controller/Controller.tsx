@@ -1,4 +1,4 @@
-import React, {DragEvent, ReactNode, useEffect, useState} from 'react';
+import React, {DragEvent, ReactNode, useCallback, useEffect, useState} from 'react';
 import {PlannerConfigType, TaskDataType, PlannerType} from '@/types';
 import {ControllerContext} from './ControllerContext';
 import {TASK_TYPE} from '@/constants';
@@ -38,13 +38,20 @@ export const Controller = ({children}: Props) => {
 
   const [config, setConfig] = useState<PlannerConfigType>(defaultData);
   const [currentTask, setCurrentTask] = useState<TaskDataType | null>(null);
+  const [isOnDrag, setIsOnDrag] = useState<boolean>(false);
   const [isDragOverTask, setIsDragOverTask] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const configuratedData = plannerStructure.map((item) => ({...item, tasks: config[item.id]}));
 
+  const onDragEventEnd = useCallback(() => {
+    setCurrentTask(null);
+    setIsOnDrag(false);
+  }, []);
+
   const handleDragStart = (data: TaskDataType) => (_: DragEvent<HTMLDivElement>) => {
     setCurrentTask(data);
+    setIsOnDrag(true);
   };
 
   const handleDragLeave = (_: DragEvent<HTMLDivElement>) => {
@@ -52,7 +59,7 @@ export const Controller = ({children}: Props) => {
   };
 
   const handleDragEnd = (_: DragEvent<HTMLDivElement>) => {
-    setCurrentTask(null);
+    onDragEventEnd();
   };
 
   const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
@@ -92,7 +99,7 @@ export const Controller = ({children}: Props) => {
         localStorage.setItem(currentTask.type, JSON.stringify(currentBoard));
       }
 
-      setCurrentTask(null);
+      onDragEventEnd();
     }
   };
 
@@ -126,17 +133,34 @@ export const Controller = ({children}: Props) => {
         localStorage.setItem(data.id, JSON.stringify(board));
       }
 
-      setCurrentTask(null);
+      onDragEventEnd();
     }
   };
 
-  const handleModalOpen = () => {
-    setIsModalOpen(true);
+  const handleDeleteDragOver = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
   };
 
-  const handleModalClose = () => {
-    setIsModalOpen(false);
+  const handleDeleteDrop = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+
+    if (currentTask) {
+      const updatedConfig = [...config[currentTask.type]];
+      const currentIndex = config[currentTask.type].findIndex((item) => item.id === currentTask.id);
+
+      updatedConfig.splice(currentIndex, 1);
+
+      localStorage.setItem(currentTask.type, JSON.stringify(updatedConfig));
+    }
   };
+
+  const handleModalOpen = useCallback(() => {
+    setIsModalOpen(true);
+  }, []);
+
+  const handleModalClose = useCallback(() => {
+    setIsModalOpen(false);
+  }, []);
 
   useEffect(() => {
     const upcomingStorage = localStorage.getItem('UPCOMING');
@@ -175,15 +199,23 @@ export const Controller = ({children}: Props) => {
     <ControllerContext.Provider
       value={{
         data: configuratedData,
-        upcomingCongiguration: config[TASK_TYPE.UPCOMING],
+        upcomingConfig: config[TASK_TYPE.UPCOMING],
+
         isModalOpen,
+        isOnDrag,
+
         handleDragStart,
         handleDragLeave,
         handleDragEnd,
         handleDragOver,
         handleDrop,
+
         handleBoardDragOver,
         handleBoardDrop,
+
+        handleDeleteDragOver,
+        handleDeleteDrop,
+
         handleModalOpen,
         handleModalClose,
       }}
