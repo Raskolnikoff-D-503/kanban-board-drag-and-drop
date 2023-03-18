@@ -18,7 +18,7 @@ export const AddTask = () => {
   };
 
   const handleSubmit = () => {
-    if (context && txt) {
+    if (context && txt.trim()) {
       const newTask: TaskDataType = {
         id: new Date().getTime().toString(),
         content: txt,
