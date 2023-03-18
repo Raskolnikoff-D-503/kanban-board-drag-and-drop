@@ -1,3 +1,5 @@
+@import './src/style/mixins.scss';
+
 .task {
   &__container {
     width: 100%;
@@ -6,18 +8,20 @@
     justify-content: center;
     align-items: center;
     cursor: grab;
-    box-shadow: 0 6px 6px hsl(0deg 0% 0% / 0.3);
+    box-shadow: $boxShadow;
+
+    word-break: break-all;
   }
 
   &--upcoming {
-    background-color: #d09b9b;
+    background-color: $softRed;
   }
 
   &--in-progress {
-    background-color: #d0c99b;
+    background-color: $softYellow;
   }
 
   &--done {
-    background-color: #9fd09b;
+    background-color: $softGreen;
   }
 }

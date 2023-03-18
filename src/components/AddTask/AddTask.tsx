@@ -5,6 +5,8 @@ import {TASK_TYPE} from '@/constants';
 
 import './AddTask.scss';
 
+const TEXTAREA_LIMIT = 100;
+
 export const AddTask = () => {
   const context = useContext(ControllerContext);
   const [txt, setTxt] = useState('');
@@ -35,7 +37,10 @@ export const AddTask = () => {
   return (
     <div className="add-task__container">
       <h3>Add new task</h3>
-      <textarea className="add-task__textarea" onChange={handleChange} />
+      <textarea className="add-task__textarea" onChange={handleChange} maxLength={TEXTAREA_LIMIT} />
+      <span className="add-task__limit">
+        {txt.length}/{TEXTAREA_LIMIT}
+      </span>
       <Button text="Add Task" onClick={handleSubmit} />
     </div>
   );

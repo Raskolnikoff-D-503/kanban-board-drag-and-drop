@@ -1,3 +1,5 @@
+@import './src/style/mixins.scss';
+
 .modal {
   &__backdrop {
     position: fixed;
@@ -13,7 +15,7 @@
   }
   &__content {
     padding: 16px;
-    box-shadow: 0 6px 6px hsl(0deg 0% 0% / 0.3);
+    box-shadow: $boxShadow;
     // background-color: #d0b29b;
     background-color: #fff;
   }

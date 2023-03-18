@@ -13,4 +13,9 @@
     outline: none;
     background-color: inherit;
   }
+
+  &__limit {
+    display: flex;
+    justify-content: right;
+  }
 }
