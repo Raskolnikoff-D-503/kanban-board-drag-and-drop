@@ -1,7 +1,9 @@
+@import './src/style/mixins.scss';
+
 .header {
   &__container {
     padding: 16px 56px;
-    background-color: #9bb9d0;
-    box-shadow: 0 6px 6px hsl(0deg 0% 0% / 0.3);
+    background-color: $softBlue;
+    box-shadow: $boxShadow;
   }
 }

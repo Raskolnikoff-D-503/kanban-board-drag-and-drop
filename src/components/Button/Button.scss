@@ -1,8 +1,10 @@
+@import './src/style/mixins.scss';
+
 .button {
   padding: 8px;
   width: 100%;
-  box-shadow: 0 6px 6px hsl(0deg 0% 0% / 0.3);
-  background-color: #9bb9d0;
+  box-shadow: $boxShadow;
+  background-color: $softBlue;
   border-radius: 4px;
   font-size: 20px;
 
