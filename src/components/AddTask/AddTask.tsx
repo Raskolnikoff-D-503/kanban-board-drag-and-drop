@@ -27,7 +27,7 @@ export const AddTask = () => {
 
       localStorage.setItem(
         TASK_TYPE.UPCOMING,
-        JSON.stringify([...context.upcomingCongiguration, newTask]),
+        JSON.stringify([...context.upcomingConfig, newTask]),
       );
 
       context?.handleModalClose();
@@ -41,7 +41,11 @@ export const AddTask = () => {
       <span className="add-task__limit">
         {txt.length}/{TEXTAREA_LIMIT}
       </span>
-      <Button text="Add Task" onClick={handleSubmit} />
+
+      <div className="add-task__buttons">
+        <Button text="Close" onClick={context?.handleModalClose} />
+        <Button text="Add Task" onClick={handleSubmit} />
+      </div>
     </div>
   );
 };
