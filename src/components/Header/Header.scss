@@ -9,23 +9,16 @@
     padding: 16px 56px;
     background-color: $softBlue;
     box-shadow: $boxShadow;
+    user-select: none;
   }
 
   &__delete {
-    display: none;
-    overflow: hidden;
-
-    &--border {
-      animation-duration: 0.5s;
-      animation-name: slide-in;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      padding: 8px 16px;
-      border: 2px dashed black;
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    padding: 8px 16px;
+    border: 2px dashed black;
   }
 }
 

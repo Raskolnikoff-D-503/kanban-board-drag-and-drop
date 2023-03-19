@@ -1,24 +1,18 @@
-import {createContext, DragEvent} from 'react';
-import {PlannerType, TaskDataType} from '@/types';
+import {createContext} from 'react';
+import {PlannerConfigType, PlannerType, TaskDataType} from '@/types';
 
 type ControllerType = {
+  config: PlannerConfigType;
+  currentTask: TaskDataType | null;
   data: PlannerType[];
-  upcomingConfig: TaskDataType[];
 
   isModalOpen: boolean;
+  isDragOverTask: boolean;
   isOnDrag: boolean;
 
-  handleDragStart: (data: TaskDataType) => (event: DragEvent<HTMLDivElement>) => void;
-  handleDrop: (data: TaskDataType) => (event: DragEvent<HTMLDivElement>) => void;
-  handleDragEnd: (event: DragEvent<HTMLDivElement>) => void;
-  handleDragOver: (event: DragEvent<HTMLDivElement>) => void;
-  handleDragLeave: (event: DragEvent<HTMLDivElement>) => void;
-
-  handleBoardDrop: (data: PlannerType) => (event: DragEvent<HTMLDivElement>) => void;
-  handleBoardDragOver: (event: DragEvent<HTMLDivElement>) => void;
-
-  handleDeleteDrop: (event: DragEvent<HTMLDivElement>) => void;
-  handleDeleteDragOver: (event: DragEvent<HTMLDivElement>) => void;
+  handleDragEventStart: (data: TaskDataType) => void;
+  handleDragOverEvent: (status: boolean) => void;
+  handleDragEventEnd: () => void;
 
   handleModalOpen: () => void;
   handleModalClose: () => void;
