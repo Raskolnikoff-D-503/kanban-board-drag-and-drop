@@ -68,11 +68,7 @@ So here it is. I had fun doing it and had a lot to change while creating the kan
    ```sh
    npm install
    ```
-3. Run Webpack build to enable fonts
-   ```js
-   npm run build
-   ```
-4. Run Webpack serve
+3. Run Webpack serve
    ```js
    npm run dev
    ```
