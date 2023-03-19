@@ -11,19 +11,19 @@
 
 <br />
 <div align="center">
-  <h3 align="center">kanban-board</h3>
+  <h3 align="center">kanban-board-drag-&-drop</h3>
 
   <p align="center">
     Kanban Board
     <br />
-    <a href="https://github.com/Raskolnikoff-D-503/snake-game"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/Raskolnikoff-D-503/kanban-board-drag-and-drop"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/Raskolnikoff-D-503/snake-game">View Demo</a>
+    <a href="https://github.com/Raskolnikoff-D-503/kanban-board-drag-and-drop">View Demo</a>
     ·
-    <a href="https://github.com/Raskolnikoff-D-503/snake-game/issues">Report Bug</a>
+    <a href="https://github.com/Raskolnikoff-D-503/kanban-board-drag-and-drop/issues">Report Bug</a>
     ·
-    <a href="https://github.com/Raskolnikoff-D-503/snake-game/issues">Request Feature</a>
+    <a href="https://github.com/Raskolnikoff-D-503/kanban-board-drag-and-drop/issues">Request Feature</a>
   </p>
 </div>
 
@@ -37,15 +37,15 @@ So one of the main features of the project is the ability to switch tasks order 
 
 ![image](https://user-images.githubusercontent.com/82656000/226194973-e39e4ddc-827f-46c1-87ba-da19f9cd378d.png)
 
-There is also an ability to add new tasks while choosing their type, based on suggested colors.
+There is also an ability to add new tasks while choosing their type, based on suggested colors. Tasks are being saved to local storage.
 
 ![image](https://user-images.githubusercontent.com/82656000/226195185-23b1ae97-43ec-4a01-baac-3ab4f0498085.png)
 
-The problem with adding as much tasks as possible without changing the size of borders was solved by simply adding scrollbar inside board content elements.
+The problem with adding as much tasks as possible without changing the size of boards was solved by simply adding scrollbar inside board content elements.
 
 ![image](https://user-images.githubusercontent.com/82656000/226195560-2413d4ec-e2d0-46ee-aa0f-3369861e53d8.png)
 
-So here it is. I had fun doing it and had a lot to change while doing it just to make it as good as possible. Still, it's pretty much a simple project.
+So here it is. I had fun doing it and had a lot to change while creating the kanban board project just to make it as good as possible. Still, it's pretty much a simple project.
 
 
 
@@ -62,7 +62,7 @@ So here it is. I had fun doing it and had a lot to change while doing it just to
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/Raskolnikoff-D-503/snake-game.git
+   git clone https://github.com/Raskolnikoff-D-503/kanban-board-drag-and-drop.git
    ```
 2. Install NPM packages
    ```sh
@@ -95,16 +95,16 @@ Evgeny Gaag - gaagevgenii@gmail.com
 
 
 
-[contributors-shield]: https://img.shields.io/github/contributors/Raskolnikoff-D-503/snake-game.svg?style=for-the-badge
-[contributors-url]: https://github.com/Raskolnikoff-D-503/snake-game/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/Raskolnikoff-D-503/snake-game.svg?style=for-the-badge
-[forks-url]: https://github.com/Raskolnikoff-D-503/snake-game/network/members
-[stars-shield]: https://img.shields.io/github/stars/Raskolnikoff-D-503/snake-game.svg?style=for-the-badge
-[stars-url]: https://github.com/Raskolnikoff-D-503/snake-game/stargazers
-[issues-shield]: https://img.shields.io/github/issues/Raskolnikoff-D-503/snake-game.svg?style=for-the-badge
-[issues-url]: https://github.com/Raskolnikoff-D-503/snake-game/issues
-[license-shield]: https://img.shields.io/github/license/Raskolnikoff-D-503/snake-game.svg?style=for-the-badge
-[license-url]: https://github.com/Raskolnikoff-D-503/snake-game/blob/main/LICENSE
+[contributors-shield]: https://img.shields.io/github/contributors/Raskolnikoff-D-503/kanban-board-drag-and-drop.svg?style=for-the-badge
+[contributors-url]: https://github.com/Raskolnikoff-D-503/kanban-board-drag-and-drop/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/Raskolnikoff-D-503/kanban-board-drag-and-drop.svg?style=for-the-badge
+[forks-url]: https://github.com/Raskolnikoff-D-503/kanban-board-drag-and-drop/network/members
+[stars-shield]: https://img.shields.io/github/stars/Raskolnikoff-D-503/kanban-board-drag-and-drop.svg?style=for-the-badge
+[stars-url]: https://github.com/Raskolnikoff-D-503/kanban-board-drag-and-drop/stargazers
+[issues-shield]: https://img.shields.io/github/issues/Raskolnikoff-D-503/kanban-board-drag-and-drop.svg?style=for-the-badge
+[issues-url]: https://github.com/Raskolnikoff-D-503/kanban-board-drag-and-drop/issues
+[license-shield]: https://img.shields.io/github/license/Raskolnikoff-D-503/kanban-board-drag-and-drop.svg?style=for-the-badge
+[license-url]: https://github.com/Raskolnikoff-D-503/kanban-board-drag-and-drop/blob/main/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/evgeny-gaag-870b35233
 
