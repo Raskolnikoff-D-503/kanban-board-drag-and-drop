@@ -1,17 +1,17 @@
 export const TASK_TYPE = {
   UPCOMING: 'UPCOMING',
   IN_PROGRESS: 'IN_PROGRESS',
-  DONE: 'DONE',
+  COMPLETE: 'COMPLETE',
 } as const;
 
 export const TASK_STATUS = {
   [TASK_TYPE.UPCOMING]: 'upcoming',
   [TASK_TYPE.IN_PROGRESS]: 'in-progress',
-  [TASK_TYPE.DONE]: 'done',
+  [TASK_TYPE.COMPLETE]: 'complete',
 } as const;
 
-export const PALETTE = {
-  RED: '#ffbdae',
-  YELLOW: '#ffea79',
-  GREEN: '#93e396',
+export const COLOR = {
+  RED: 'red',
+  YELLOW: 'yellow',
+  GREEN: 'green',
 } as const;

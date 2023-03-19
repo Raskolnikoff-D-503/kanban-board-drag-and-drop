@@ -2,7 +2,7 @@ import React, {ChangeEvent, useCallback, useContext, useState} from 'react';
 import {TaskDataType} from '@/types';
 import {Button, ControllerContext} from '@/components';
 import {convertTasksToJSON} from '@/utils';
-import {PALETTE, TASK_TYPE} from '@/constants';
+import {COLOR, TASK_TYPE} from '@/constants';
 
 import './AddTask.scss';
 
@@ -11,7 +11,7 @@ const TEXTAREA_LIMIT = 100;
 export const AddTask = () => {
   const context = useContext(ControllerContext);
   const [txt, setTxt] = useState<string>('');
-  const [selectedColor, setSelectedColor] = useState<string>(PALETTE.RED);
+  const [selectedColor, setSelectedColor] = useState<string>(COLOR.RED);
 
   const handleChange = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
     const {value} = e.target;
@@ -46,30 +46,29 @@ export const AddTask = () => {
       <h3>Add new task</h3>
       <div className="add-task__radio-group">
         <input
-          className={`add-task__radio-input add-task__radio-input--red`}
+          className={`add-task__radio-input add-task__radio-input--${COLOR.RED}`}
           type="radio"
-          value={PALETTE.RED}
-          checked={selectedColor === PALETTE.RED}
-          onChange={() => handleRadioChange(PALETTE.RED)}
+          value={COLOR.RED}
+          checked={selectedColor === COLOR.RED}
+          onChange={() => handleRadioChange(COLOR.RED)}
         />
         <input
-          className={`add-task__radio-input add-task__radio-input--yellow`}
+          className={`add-task__radio-input add-task__radio-input--${COLOR.YELLOW}`}
           type="radio"
-          value={PALETTE.YELLOW}
-          checked={selectedColor === PALETTE.YELLOW}
-          onChange={() => handleRadioChange(PALETTE.YELLOW)}
+          value={COLOR.YELLOW}
+          checked={selectedColor === COLOR.YELLOW}
+          onChange={() => handleRadioChange(COLOR.YELLOW)}
         />
         <input
-          className={`add-task__radio-input add-task__radio-input--green`}
+          className={`add-task__radio-input add-task__radio-input--${COLOR.GREEN}`}
           type="radio"
-          value={PALETTE.GREEN}
-          checked={selectedColor === PALETTE.GREEN}
-          onChange={() => handleRadioChange(PALETTE.GREEN)}
+          value={COLOR.GREEN}
+          checked={selectedColor === COLOR.GREEN}
+          onChange={() => handleRadioChange(COLOR.GREEN)}
         />
       </div>
       <textarea
-        className="add-task__textarea"
-        style={{backgroundColor: selectedColor}}
+        className={`add-task__textarea add-task__textarea--${selectedColor}`}
         onChange={handleChange}
         maxLength={TEXTAREA_LIMIT}
       />

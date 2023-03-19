@@ -11,7 +11,7 @@ type Props = {
 const defaultData: PlannerConfigType = {
   [TASK_TYPE.UPCOMING]: [],
   [TASK_TYPE.IN_PROGRESS]: [],
-  [TASK_TYPE.DONE]: [],
+  [TASK_TYPE.COMPLETE]: [],
 };
 
 export const plannerStructure: PlannerType[] = [
@@ -22,20 +22,20 @@ export const plannerStructure: PlannerType[] = [
   },
   {
     id: TASK_TYPE.IN_PROGRESS,
-    label: 'In process',
+    label: 'In progress',
     tasks: [],
   },
   {
-    id: TASK_TYPE.DONE,
-    label: 'Done',
+    id: TASK_TYPE.COMPLETE,
+    label: 'Complete',
     tasks: [],
   },
 ];
 
 export const Controller = ({children}: Props) => {
-  const upcomingStorage = localStorage.getItem('UPCOMING');
-  const inProgressStorage = localStorage.getItem('IN_PROGRESS');
-  const doneStorage = localStorage.getItem('DONE');
+  const upcomingStorage = localStorage.getItem(TASK_TYPE.UPCOMING);
+  const inProgressStorage = localStorage.getItem(TASK_TYPE.IN_PROGRESS);
+  const completeStorage = localStorage.getItem(TASK_TYPE.COMPLETE);
 
   const [config, setConfig] = useState<PlannerConfigType>(defaultData);
   const [currentTask, setCurrentTask] = useState<TaskDataType | null>(null);
@@ -69,9 +69,9 @@ export const Controller = ({children}: Props) => {
   }, []);
 
   useEffect(() => {
-    const upcomingStorage = localStorage.getItem('UPCOMING');
-    const inProgressStorage = localStorage.getItem('IN_PROGRESS');
-    const doneStorage = localStorage.getItem('DONE');
+    const upcomingStorage = localStorage.getItem(TASK_TYPE.UPCOMING);
+    const inProgressStorage = localStorage.getItem(TASK_TYPE.IN_PROGRESS);
+    const completeStorage = localStorage.getItem(TASK_TYPE.COMPLETE);
 
     if (!upcomingStorage) {
       localStorage.setItem(TASK_TYPE.UPCOMING, convertTasksToJSON(defaultData[TASK_TYPE.UPCOMING]));
@@ -84,22 +84,22 @@ export const Controller = ({children}: Props) => {
       );
     }
 
-    if (!doneStorage) {
-      localStorage.setItem(TASK_TYPE.DONE, convertTasksToJSON(defaultData[TASK_TYPE.DONE]));
+    if (!completeStorage) {
+      localStorage.setItem(TASK_TYPE.COMPLETE, convertTasksToJSON(defaultData[TASK_TYPE.COMPLETE]));
     }
   }, []);
 
   useEffect(() => {
-    if (upcomingStorage && inProgressStorage && doneStorage) {
+    if (upcomingStorage && inProgressStorage && completeStorage) {
       const configuration: PlannerConfigType = {
         [TASK_TYPE.UPCOMING]: convertJSONToTasks(upcomingStorage),
         [TASK_TYPE.IN_PROGRESS]: convertJSONToTasks(inProgressStorage),
-        [TASK_TYPE.DONE]: convertJSONToTasks(doneStorage),
+        [TASK_TYPE.COMPLETE]: convertJSONToTasks(completeStorage),
       };
 
       setConfig(configuration);
     }
-  }, [upcomingStorage, inProgressStorage, doneStorage]);
+  }, [upcomingStorage, inProgressStorage, completeStorage]);
 
   return (
     <ControllerContext.Provider

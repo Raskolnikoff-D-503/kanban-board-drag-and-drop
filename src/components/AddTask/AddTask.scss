@@ -18,6 +18,18 @@
     background-color: inherit;
     border: none;
 
+    &--red {
+      background-color: $brightRed;
+    }
+
+    &--yellow {
+      background-color: $brightYellow;
+    }
+
+    &--green {
+      background-color: $brightGreen;
+    }
+
     scrollbar-width: none;
 
     &::-webkit-scrollbar {
