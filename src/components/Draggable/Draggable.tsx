@@ -1,4 +1,4 @@
-import React, {ReactNode, DragEvent} from 'react';
+import React, {ReactNode, DragEvent, CSSProperties} from 'react';
 
 type Props = {
   onDragStart?: (event: DragEvent<HTMLDivElement>) => void;
@@ -7,6 +7,7 @@ type Props = {
   onDragOver?: (event: DragEvent<HTMLDivElement>) => void;
   onDrop?: (event: DragEvent<HTMLDivElement>) => void;
   className?: string;
+  style?: CSSProperties;
   children: ReactNode;
 };
 
@@ -17,6 +18,7 @@ export const Draggable = ({
   onDragOver,
   onDrop,
   className,
+  style,
   children,
 }: Props) => {
   return (
@@ -28,6 +30,7 @@ export const Draggable = ({
       onDrop={onDrop}
       onDragEnd={onDragEnd}
       className={className}
+      style={style}
     >
       {children}
     </div>

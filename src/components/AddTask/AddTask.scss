@@ -1,3 +1,5 @@
+@import './src/style/variables.scss';
+
 .add-task {
   &__container {
     display: flex;
@@ -8,16 +10,47 @@
 
   &__textarea {
     width: 400px;
-    height: 100px;
+    height: 116px;
     font-size: 32px;
+    padding: 8px;
     resize: none;
     outline: none;
     background-color: inherit;
+    border: none;
 
     scrollbar-width: none;
 
     &::-webkit-scrollbar {
       display: none;
+    }
+  }
+
+  &__radio-group {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 16px;
+  }
+
+  &__radio-input {
+    width: 24px;
+    height: 24px;
+
+    &--red {
+      accent-color: $brightRed;
+    }
+
+    &--yellow {
+      accent-color: $brightYellow;
+    }
+
+    &--green {
+      accent-color: $brightGreen;
+    }
+
+    &:focus {
+      outline: none;
     }
   }
 

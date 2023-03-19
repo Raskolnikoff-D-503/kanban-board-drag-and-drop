@@ -6,6 +6,7 @@ export type TaskDataType = {
   id: string;
   content: string;
   type: TaskType;
+  color: string;
 };
 
 export type PlannerType = {
