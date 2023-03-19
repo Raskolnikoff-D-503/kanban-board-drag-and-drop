@@ -12,15 +12,15 @@
 
     word-break: break-all;
 
-    &--upcoming {
+    &--red {
       background-color: $brightRed;
     }
 
-    &--in-progress {
+    &--yellow {
       background-color: $brightYellow;
     }
 
-    &--done {
+    &--green {
       background-color: $brightGreen;
     }
   }

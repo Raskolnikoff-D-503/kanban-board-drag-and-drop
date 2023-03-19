@@ -18,5 +18,5 @@ export type PlannerType = {
 export type PlannerConfigType = {
   [TASK_TYPE.UPCOMING]: TaskDataType[];
   [TASK_TYPE.IN_PROGRESS]: TaskDataType[];
-  [TASK_TYPE.DONE]: TaskDataType[];
+  [TASK_TYPE.COMPLETE]: TaskDataType[];
 };

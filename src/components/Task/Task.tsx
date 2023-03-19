@@ -12,44 +12,35 @@ type Props = {
 export const Task = ({data}: Props) => {
   const context = useContext(ControllerContext);
 
+  const config = context?.config;
+  const currentTask = context?.currentTask;
+
   const handleDragStart = useCallback(
     (data: TaskDataType) => (_: DragEvent<HTMLDivElement>) => {
       context?.handleDragEventStart(data);
     },
-    [context],
+    [],
   );
 
-  const handleDragLeave = useCallback(
-    (_: DragEvent<HTMLDivElement>) => {
-      context?.handleDragOverEvent(false);
-    },
-    [context],
-  );
+  const handleDragLeave = useCallback((_: DragEvent<HTMLDivElement>) => {
+    context?.handleDragOverEvent(false);
+  }, []);
 
-  const handleDragEnd = useCallback(
-    (_: DragEvent<HTMLDivElement>) => {
-      context?.handleDragEventEnd();
-    },
-    [context],
-  );
+  const handleDragEnd = useCallback((_: DragEvent<HTMLDivElement>) => {
+    context?.handleDragEventEnd();
+  }, []);
 
-  const handleDragOver = useCallback(
-    (event: DragEvent<HTMLDivElement>) => {
-      event.preventDefault();
+  const handleDragOver = useCallback((event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
 
-      context?.handleDragOverEvent(true);
-    },
-    [context],
-  );
+    context?.handleDragOverEvent(true);
+  }, []);
 
   const handleDrop = useCallback(
     (data: TaskDataType) => (event: DragEvent<HTMLDivElement>) => {
       event.preventDefault();
 
       context?.handleDragOverEvent(false);
-
-      const config = context?.config;
-      const currentTask = context?.currentTask;
 
       if (currentTask && config) {
         const board = getTasksCopyByType(config, data.type);
@@ -78,13 +69,12 @@ export const Task = ({data}: Props) => {
         context?.handleDragEventEnd();
       }
     },
-    [context],
+    [currentTask, config],
   );
 
   return (
     <Draggable
-      className="task__container"
-      style={{backgroundColor: data.color}}
+      className={`task__container task__container--${data.color}`}
       onDragStart={handleDragStart(data)}
       onDragLeave={handleDragLeave}
       onDragEnd={handleDragEnd}
