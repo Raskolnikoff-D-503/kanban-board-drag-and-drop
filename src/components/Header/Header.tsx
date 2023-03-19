@@ -9,15 +9,13 @@ export const Header = () => {
   return (
     <div className="header__container">
       <h1 className="header__title">Kanban Board</h1>
-      {context?.isOnDrag && (
-        <div
-          onDragOver={context?.handleDragOver}
-          onDrop={context?.handleDeleteDrop}
-          className={`header__delete ${context?.isOnDrag ? 'header__delete--border' : ''}`}
-        >
-          Drop here to delete a task
-        </div>
-      )}
+      <div
+        onDragOver={context?.handleDragOver}
+        onDrop={context?.handleDeleteDrop}
+        className={`header__delete ${context?.isOnDrag ? 'header__delete--border' : ''}`}
+      >
+        Drop here to delete the task
+      </div>
     </div>
   );
 };
