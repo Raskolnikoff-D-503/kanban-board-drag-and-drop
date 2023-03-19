@@ -1,6 +1,7 @@
 import React, {DragEvent, ReactNode, useCallback, useEffect, useState} from 'react';
 import {PlannerConfigType, TaskDataType, PlannerType} from '@/types';
 import {ControllerContext} from './ControllerContext';
+import {convertJSONToTasks, convertTasksToJSON, getTaskIndex, getTasksCopyByType} from '@/utils';
 import {TASK_TYPE} from '@/constants';
 
 type Props = {
@@ -38,6 +39,7 @@ export const Controller = ({children}: Props) => {
 
   const [config, setConfig] = useState<PlannerConfigType>(defaultData);
   const [currentTask, setCurrentTask] = useState<TaskDataType | null>(null);
+
   const [isOnDrag, setIsOnDrag] = useState<boolean>(false);
   const [isDragOverTask, setIsDragOverTask] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -49,59 +51,63 @@ export const Controller = ({children}: Props) => {
     setIsOnDrag(false);
   }, []);
 
-  const handleDragStart = (data: TaskDataType) => (_: DragEvent<HTMLDivElement>) => {
-    setCurrentTask(data);
-    setIsOnDrag(true);
-  };
+  const handleDragStart = useCallback(
+    (data: TaskDataType) => (_: DragEvent<HTMLDivElement>) => {
+      setCurrentTask(data);
+      setIsOnDrag(true);
+    },
+    [],
+  );
 
-  const handleDragLeave = (_: DragEvent<HTMLDivElement>) => {
+  const handleDragLeave = useCallback((_: DragEvent<HTMLDivElement>) => {
     setIsDragOverTask(false);
-  };
+  }, []);
 
-  const handleDragEnd = (_: DragEvent<HTMLDivElement>) => {
+  const handleDragEnd = useCallback((_: DragEvent<HTMLDivElement>) => {
     onDragEventEnd();
-  };
+  }, []);
 
-  const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
+  const handleDragOver = useCallback((event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
 
     setIsDragOverTask(true);
-  };
+  }, []);
 
-  const handleDrop = (data: TaskDataType) => (event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
+  const handleDrop = useCallback(
+    (data: TaskDataType) => (event: DragEvent<HTMLDivElement>) => {
+      event.preventDefault();
 
-    setIsDragOverTask(false);
+      setIsDragOverTask(false);
 
-    if (currentTask) {
-      if (currentTask.type === data.type) {
-        const board = [...config[data.type]];
+      if (currentTask) {
+        const board = getTasksCopyByType(config, data.type);
+        const currentBoard = getTasksCopyByType(config, currentTask.type);
 
-        const currentIndex = board.findIndex((item) => item.id === currentTask.id);
-        board.splice(currentIndex, 1);
+        if (currentTask.type === data.type) {
+          const currentIndex = getTaskIndex(board, currentTask.id);
+          board.splice(currentIndex, 1);
 
-        const dropIndex = board.findIndex((item) => item.id === data.id);
-        const adjustPositionAddendum = currentIndex <= dropIndex ? 1 : 0;
-        board.splice(dropIndex + adjustPositionAddendum, 0, currentTask);
+          const dropIndex = getTaskIndex(board, data.id);
+          const adjustPositionAddendum = currentIndex <= dropIndex ? 1 : 0;
+          board.splice(dropIndex + adjustPositionAddendum, 0, currentTask);
 
-        localStorage.setItem(data.type, JSON.stringify(board));
-      } else {
-        const currentBoard = [...config[currentTask.type]];
-        const board = [...config[data.type]];
+          localStorage.setItem(data.type, convertTasksToJSON(board));
+        } else {
+          const currentIndex = getTaskIndex(currentBoard, currentTask.id);
+          currentBoard.splice(currentIndex, 1);
 
-        const currentIndex = currentBoard.findIndex((item) => item.id === currentTask.id);
-        currentBoard.splice(currentIndex, 1);
+          const dropIndex = getTaskIndex(board, data.id);
+          board.splice(dropIndex, 0, {...currentTask, type: data.type});
 
-        const dropIndex = board.findIndex((item) => item.id === data.id);
-        board.splice(dropIndex, 0, {...currentTask, type: data.type});
+          localStorage.setItem(data.type, convertTasksToJSON(board));
+          localStorage.setItem(currentTask.type, convertTasksToJSON(currentBoard));
+        }
 
-        localStorage.setItem(data.type, JSON.stringify(board));
-        localStorage.setItem(currentTask.type, JSON.stringify(currentBoard));
+        onDragEventEnd();
       }
-
-      onDragEventEnd();
-    }
-  };
+    },
+    [currentTask, config],
+  );
 
   const handleBoardDragOver = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -111,26 +117,24 @@ export const Controller = ({children}: Props) => {
     event.preventDefault();
 
     if (!isDragOverTask && currentTask) {
-      if (currentTask.type === data.id) {
-        const board = [...config[data.id]];
+      const board = getTasksCopyByType(config, data.id);
+      const currentBoard = getTasksCopyByType(config, currentTask.type);
 
-        const currentIndex = board.findIndex((item) => item.id === currentTask.id);
+      if (currentTask.type === data.id) {
+        const currentIndex = getTaskIndex(board, currentTask.id);
 
         board.splice(currentIndex, 1);
         board.push({...currentTask, type: data.id});
 
-        localStorage.setItem(data.id, JSON.stringify(board));
+        localStorage.setItem(data.id, convertTasksToJSON(board));
       } else {
-        const currentBoard = [...config[currentTask.type]];
-        const board = [...data.tasks];
-
-        const currentIndex = currentBoard.findIndex((item) => item.id === currentTask.id);
+        const currentIndex = getTaskIndex(currentBoard, currentTask.id);
 
         currentBoard.splice(currentIndex, 1);
         board.push({...currentTask, type: data.id});
 
-        localStorage.setItem(currentTask.type, JSON.stringify(currentBoard));
-        localStorage.setItem(data.id, JSON.stringify(board));
+        localStorage.setItem(currentTask.type, convertTasksToJSON(currentBoard));
+        localStorage.setItem(data.id, convertTasksToJSON(board));
       }
 
       onDragEventEnd();
@@ -145,12 +149,12 @@ export const Controller = ({children}: Props) => {
     event.preventDefault();
 
     if (currentTask) {
-      const updatedConfig = [...config[currentTask.type]];
-      const currentIndex = config[currentTask.type].findIndex((item) => item.id === currentTask.id);
+      const updatedConfig = getTasksCopyByType(config, currentTask.type);
+      const currentIndex = getTaskIndex(config[currentTask.type], currentTask.id);
 
       updatedConfig.splice(currentIndex, 1);
 
-      localStorage.setItem(currentTask.type, JSON.stringify(updatedConfig));
+      localStorage.setItem(currentTask.type, convertTasksToJSON(updatedConfig));
     }
   };
 
@@ -168,27 +172,27 @@ export const Controller = ({children}: Props) => {
     const doneStorage = localStorage.getItem('DONE');
 
     if (!upcomingStorage) {
-      localStorage.setItem(TASK_TYPE.UPCOMING, JSON.stringify(defaultData[TASK_TYPE.UPCOMING]));
+      localStorage.setItem(TASK_TYPE.UPCOMING, convertTasksToJSON(defaultData[TASK_TYPE.UPCOMING]));
     }
 
     if (!inProgressStorage) {
       localStorage.setItem(
         TASK_TYPE.IN_PROGRESS,
-        JSON.stringify(defaultData[TASK_TYPE.IN_PROGRESS]),
+        convertTasksToJSON(defaultData[TASK_TYPE.IN_PROGRESS]),
       );
     }
 
     if (!doneStorage) {
-      localStorage.setItem(TASK_TYPE.DONE, JSON.stringify(defaultData[TASK_TYPE.DONE]));
+      localStorage.setItem(TASK_TYPE.DONE, convertTasksToJSON(defaultData[TASK_TYPE.DONE]));
     }
   }, []);
 
   useEffect(() => {
     if (upcomingStorage && inProgressStorage && doneStorage) {
       const configuration: PlannerConfigType = {
-        [TASK_TYPE.UPCOMING]: JSON.parse(upcomingStorage),
-        [TASK_TYPE.IN_PROGRESS]: JSON.parse(inProgressStorage),
-        [TASK_TYPE.DONE]: JSON.parse(doneStorage),
+        [TASK_TYPE.UPCOMING]: convertJSONToTasks(upcomingStorage),
+        [TASK_TYPE.IN_PROGRESS]: convertJSONToTasks(inProgressStorage),
+        [TASK_TYPE.DONE]: convertJSONToTasks(doneStorage),
       };
 
       setConfig(configuration);

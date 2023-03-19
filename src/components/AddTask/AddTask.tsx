@@ -1,6 +1,7 @@
 import React, {ChangeEvent, useContext, useState} from 'react';
 import {TaskDataType} from '@/types';
 import {Button, ControllerContext} from '@/components';
+import {convertTasksToJSON} from '@/utils';
 import {TASK_TYPE} from '@/constants';
 
 import './AddTask.scss';
@@ -27,7 +28,7 @@ export const AddTask = () => {
 
       localStorage.setItem(
         TASK_TYPE.UPCOMING,
-        JSON.stringify([...context.upcomingConfig, newTask]),
+        convertTasksToJSON([...context.upcomingConfig, newTask]),
       );
 
       context?.handleModalClose();
