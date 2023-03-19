@@ -10,7 +10,7 @@ const TEXTAREA_LIMIT = 100;
 
 export const AddTask = () => {
   const context = useContext(ControllerContext);
-  const [txt, setTxt] = useState('');
+  const [txt, setTxt] = useState<string>('');
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const {value} = e.target;
@@ -28,7 +28,7 @@ export const AddTask = () => {
 
       localStorage.setItem(
         TASK_TYPE.UPCOMING,
-        convertTasksToJSON([...context.upcomingConfig, newTask]),
+        convertTasksToJSON([...context.config[TASK_TYPE.UPCOMING], newTask]),
       );
 
       context?.handleModalClose();

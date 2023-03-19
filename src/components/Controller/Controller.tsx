@@ -1,7 +1,7 @@
-import React, {DragEvent, ReactNode, useCallback, useEffect, useState} from 'react';
+import React, {ReactNode, useCallback, useEffect, useState} from 'react';
 import {PlannerConfigType, TaskDataType, PlannerType} from '@/types';
 import {ControllerContext} from './ControllerContext';
-import {convertJSONToTasks, convertTasksToJSON, getTaskIndex, getTasksCopyByType} from '@/utils';
+import {convertJSONToTasks, convertTasksToJSON} from '@/utils';
 import {TASK_TYPE} from '@/constants';
 
 type Props = {
@@ -46,117 +46,19 @@ export const Controller = ({children}: Props) => {
 
   const configuratedData = plannerStructure.map((item) => ({...item, tasks: config[item.id]}));
 
-  const onDragEventEnd = useCallback(() => {
+  const handleDragEventStart = (data: TaskDataType) => {
+    setCurrentTask(data);
+    setIsOnDrag(true);
+  };
+
+  const handleDragOverEvent = (status: boolean) => {
+    setIsDragOverTask(status);
+  };
+
+  const handleDragEventEnd = useCallback(() => {
     setCurrentTask(null);
     setIsOnDrag(false);
   }, []);
-
-  const handleDragStart = useCallback(
-    (data: TaskDataType) => (_: DragEvent<HTMLDivElement>) => {
-      setCurrentTask(data);
-      setIsOnDrag(true);
-    },
-    [],
-  );
-
-  const handleDragLeave = useCallback((_: DragEvent<HTMLDivElement>) => {
-    setIsDragOverTask(false);
-  }, []);
-
-  const handleDragEnd = useCallback((_: DragEvent<HTMLDivElement>) => {
-    onDragEventEnd();
-  }, []);
-
-  const handleDragOver = useCallback((event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-
-    setIsDragOverTask(true);
-  }, []);
-
-  const handleDrop = useCallback(
-    (data: TaskDataType) => (event: DragEvent<HTMLDivElement>) => {
-      event.preventDefault();
-
-      setIsDragOverTask(false);
-
-      if (currentTask) {
-        const board = getTasksCopyByType(config, data.type);
-        const currentBoard = getTasksCopyByType(config, currentTask.type);
-
-        if (currentTask.type === data.type) {
-          const currentIndex = getTaskIndex(board, currentTask.id);
-          board.splice(currentIndex, 1);
-
-          const dropIndex = getTaskIndex(board, data.id);
-          const adjustPositionAddendum = currentIndex <= dropIndex ? 1 : 0;
-          board.splice(dropIndex + adjustPositionAddendum, 0, currentTask);
-
-          localStorage.setItem(data.type, convertTasksToJSON(board));
-        } else {
-          const currentIndex = getTaskIndex(currentBoard, currentTask.id);
-          currentBoard.splice(currentIndex, 1);
-
-          const dropIndex = getTaskIndex(board, data.id);
-          board.splice(dropIndex, 0, {...currentTask, type: data.type});
-
-          localStorage.setItem(data.type, convertTasksToJSON(board));
-          localStorage.setItem(currentTask.type, convertTasksToJSON(currentBoard));
-        }
-
-        onDragEventEnd();
-      }
-    },
-    [currentTask, config],
-  );
-
-  const handleBoardDragOver = (event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-  };
-
-  const handleBoardDrop = (data: PlannerType) => (event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-
-    if (!isDragOverTask && currentTask) {
-      const board = getTasksCopyByType(config, data.id);
-      const currentBoard = getTasksCopyByType(config, currentTask.type);
-
-      if (currentTask.type === data.id) {
-        const currentIndex = getTaskIndex(board, currentTask.id);
-
-        board.splice(currentIndex, 1);
-        board.push({...currentTask, type: data.id});
-
-        localStorage.setItem(data.id, convertTasksToJSON(board));
-      } else {
-        const currentIndex = getTaskIndex(currentBoard, currentTask.id);
-
-        currentBoard.splice(currentIndex, 1);
-        board.push({...currentTask, type: data.id});
-
-        localStorage.setItem(currentTask.type, convertTasksToJSON(currentBoard));
-        localStorage.setItem(data.id, convertTasksToJSON(board));
-      }
-
-      onDragEventEnd();
-    }
-  };
-
-  const handleDeleteDragOver = (event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-  };
-
-  const handleDeleteDrop = (event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-
-    if (currentTask) {
-      const updatedConfig = getTasksCopyByType(config, currentTask.type);
-      const currentIndex = getTaskIndex(config[currentTask.type], currentTask.id);
-
-      updatedConfig.splice(currentIndex, 1);
-
-      localStorage.setItem(currentTask.type, convertTasksToJSON(updatedConfig));
-    }
-  };
 
   const handleModalOpen = useCallback(() => {
     setIsModalOpen(true);
@@ -202,23 +104,17 @@ export const Controller = ({children}: Props) => {
   return (
     <ControllerContext.Provider
       value={{
+        config,
+        currentTask,
         data: configuratedData,
-        upcomingConfig: config[TASK_TYPE.UPCOMING],
 
         isModalOpen,
+        isDragOverTask,
         isOnDrag,
 
-        handleDragStart,
-        handleDragLeave,
-        handleDragEnd,
-        handleDragOver,
-        handleDrop,
-
-        handleBoardDragOver,
-        handleBoardDrop,
-
-        handleDeleteDragOver,
-        handleDeleteDrop,
+        handleDragEventStart,
+        handleDragOverEvent,
+        handleDragEventEnd,
 
         handleModalOpen,
         handleModalClose,

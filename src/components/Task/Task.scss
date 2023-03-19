@@ -11,17 +11,17 @@
     box-shadow: $boxShadow;
 
     word-break: break-all;
-  }
 
-  &--upcoming {
-    background-color: $brightRed;
-  }
+    &--upcoming {
+      background-color: $brightRed;
+    }
 
-  &--in-progress {
-    background-color: $brightYellow;
-  }
+    &--in-progress {
+      background-color: $brightYellow;
+    }
 
-  &--done {
-    background-color: $brightGreen;
+    &--done {
+      background-color: $brightGreen;
+    }
   }
 }
