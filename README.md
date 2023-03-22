@@ -33,8 +33,6 @@
 
 The Kanban Board project was made with the purpose to explore drag & drop technology and implement it in something useful. This kanban board might be used in a very simple Scrum Workflow. 
 
-kanban-board-drag-and-drop.vercel.app
-
 So one of the main features of the project is the ability to switch tasks order between each other and between boards by just simply dragging task elements. 
 
 ![image](https://user-images.githubusercontent.com/82656000/226194973-e39e4ddc-827f-46c1-87ba-da19f9cd378d.png)
