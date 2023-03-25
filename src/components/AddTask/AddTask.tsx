@@ -39,7 +39,7 @@ export const AddTask = () => {
 
       context?.handleModalClose();
     }
-  }, [context, txt]);
+  }, [context, txt, selectedColor]);
 
   return (
     <div className="add-task__container">

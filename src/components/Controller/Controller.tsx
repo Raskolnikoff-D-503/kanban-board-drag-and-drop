@@ -40,7 +40,6 @@ export const Controller = ({children}: Props) => {
   const [config, setConfig] = useState<PlannerConfigType>(defaultData);
   const [currentTask, setCurrentTask] = useState<TaskDataType | null>(null);
 
-  const [isOnDrag, setIsOnDrag] = useState<boolean>(false);
   const [isDragOverTask, setIsDragOverTask] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -48,7 +47,6 @@ export const Controller = ({children}: Props) => {
 
   const handleDragEventStart = (data: TaskDataType) => {
     setCurrentTask(data);
-    setIsOnDrag(true);
   };
 
   const handleDragOverEvent = (status: boolean) => {
@@ -57,7 +55,6 @@ export const Controller = ({children}: Props) => {
 
   const handleDragEventEnd = useCallback(() => {
     setCurrentTask(null);
-    setIsOnDrag(false);
   }, []);
 
   const handleModalOpen = useCallback(() => {
@@ -110,7 +107,6 @@ export const Controller = ({children}: Props) => {
 
         isModalOpen,
         isDragOverTask,
-        isOnDrag,
 
         handleDragEventStart,
         handleDragOverEvent,
