@@ -8,7 +8,6 @@ type ControllerType = {
 
   isModalOpen: boolean;
   isDragOverTask: boolean;
-  isOnDrag: boolean;
 
   handleDragEventStart: (data: TaskDataType) => void;
   handleDragOverEvent: (status: boolean) => void;
